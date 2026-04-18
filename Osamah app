@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>فرسان الصحة والمال</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial;background:#0b2e13;color:white;text-align:center;min-height:100vh}
+.header{background:#14532d;padding:12px;font-size:18px;display:flex;align-items:center;justify-content:center;gap:10px;border-bottom:2px solid gold}
+.header img{width:46px;height:46px;border-radius:10px;object-fit:cover}
+.container{padding:20px;max-width:600px;margin:auto}
+button{padding:10px 20px;margin:8px;border:none;background:#22c55e;color:white;font-size:15px;border-radius:8px;cursor:pointer;transition:.2s}
+button:hover{opacity:.85}
+input,textarea{padding:10px;margin:8px;border-radius:8px;border:none;color:#000;font-family:Arial;font-size:14px}
+.card{background:#1f2937;padding:15px;margin:10px 0;border-radius:10px;text-align:right}
+.card h3{color:#4ade80;margin-bottom:6px}
+.card p{font-size:14px;color:#ccc;line-height:1.6}
+.nav-tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.nav-tab{background:#1f2937;border:1px solid #22c55e;color:#aaa;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer}
+.nav-tab.active{background:#22c55e;color:#fff;font-weight:bold}
+.section{display:none}.section.active{display:block}
+#adminPanel{background:#1a1a2e;border:2px solid gold;border-radius:12px;padding:18px;margin:16px 0}
+#adminPanel h3{color:gold;margin-bottom:12px}
+.admin-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.admin-tab{background:#22334a;color:#aaa;border:1px solid #444;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer}
+.admin-tab.active{background:gold;color:#000;font-weight:bold}
+.admin-section{display:none}.admin-section.active{display:block}
+.row-item{display:flex;justify-content:space-between;align-items:center;background:#1f2937;padding:10px;border-radius:8px;margin:5px 0;text-align:right;gap:8px}
+.del-btn{background:#ef4444;padding:5px 12px;font-size:13px;margin:0;flex-shrink:0}
+#chatBox{background:#1f2937;border-radius:10px;padding:12px;margin:10px 0;min-height:160px;text-align:right;font-size:14px;line-height:1.9;max-height:300px;overflow-y:auto}
+.chat-input-row{display:flex;gap:6px;margin-top:8px}
+.chat-input-row input{flex:1;margin:0}
+.chat-input-row button{margin:0;padding:10px 16px}
+.video-btn{background:linear-gradient(135deg,#dc2626,#991b1b);font-size:15px;padding:12px 24px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;flex-direction:column}
+.modal-overlay.open{display:flex}
+.modal-overlay iframe{width:90vw;max-width:560px;height:50.6vw;max-height:315px;border-radius:12px;border:none}
+.close-video-btn{background:#555;color:#fff;margin-top:14px;padding:8px 22px;border:none;border-radius:8px;cursor:pointer;font-size:15px}
+.splash-logo{width:90px;height:90px;border-radius:18px;object-fit:cover;margin:20px auto;display:block;box-shadow:0 0 30px rgba(255,215,0,.4)}
+.register-box{background:#1f2937;border-radius:12px;padding:20px;margin:16px 0;border:1px solid #22c55e}
+.register-box h3{color:#4ade80;margin-bottom:10px}
+.train-card{background:#1f2937;border-radius:10px;padding:15px;margin:10px 0;text-align:right;border-right:4px solid gold}
+.train-card h4{color:gold;margin-bottom:6px}
+.train-card p{font-size:13px;color:#ccc;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <!-- ضع رابط صورتك هنا أو احذف img واكتب النص فقط -->
+  <img src="data:image/jpeg;base64,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" alt="logo" onerror="this.style.display='none'">
+  <span>فرسان الصحة والمال</span>
+</div>
+
+<!-- شاشة الزوار -->
+
+<div class="container" id="screenGuest">
+  <img src="data:image/jpeg;base64,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" class="splash-logo" alt="logo" onerror="this.style.display='none'">
+  <h2 style="color:gold">Change your life style</h2>
+  <p style="color:#86efac;margin:6px 0 16px">Opportunity with Osamah – OWO</p>
+
+<button class="video-btn" onclick="openVideo()">▶ شاهد فكرة المشروع</button>
+
+  <div class="register-box">
+    <h3>🔑 تسجيل الدخول</h3>
+    <p style="color:#aaa;font-size:13px;margin-bottom:12px">أدخل رقم عضويتك للوصول إلى التطبيق</p>
+    <input type="text" id="memberId" placeholder="رقم العضوية" style="width:200px"><br>
+    <button onclick="login()">دخول</button>
+  </div>
+
+  <div class="register-box" style="border-color:#f59e0b">
+    <h3 style="color:#f59e0b">📩 طلب الانضمام</h3>
+    <p style="color:#aaa;font-size:13px;margin-bottom:12px">لا تملك رقم عضوية؟ أرسل طلبك للمدير</p>
+    <!-- غيّر الرقم هنا -->
+    <button style="background:#f59e0b;color:#000" onclick="window.open('https://wa.me/970592330809?text=أريد الانضمام لفريق فرسان الصحة والمال','_blank')">💬 طلب رقم عضوية عبر واتساب</button>
+    <br>
+    <button style="background:#25D366" onclick="window.open('https://chat.whatsapp.com/LHm9lsvCBGSJXyIuzMYYV9','_blank')">📲 الانضمام لمجموعة الفريق</button>
+  </div>
+</div>
+
+<!-- التطبيق الرئيسي -->
+
+<div class="container" id="screenApp" style="display:none">
+
+  <!-- لوحة المدير -->
+
+  <div id="adminPanel" style="display:none">
+    <h3>⚙️ لوحة المدير</h3>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="showAdminTab('adminMembers',this)">👥 الفريق</button>
+      <button class="admin-tab" onclick="showAdminTab('adminProducts',this)">🌿 المنتجات</button>
+      <button class="admin-tab" onclick="showAdminTab('adminReplies',this)">💬 الردود</button>
+      <button class="admin-tab" onclick="showAdminTab('adminTraining',this)">🎓 التدريب</button>
+    </div>
+
+```
+<!-- إدارة الفريق -->
+<div id="adminMembers" class="admin-section active">
+  <h4 style="color:#aaa;margin-bottom:10px">إضافة عضو جديد</h4>
+  <input type="text" id="newMemberId" placeholder="رقم العضوية" style="width:140px">
+  <input type="text" id="newMemberName" placeholder="الاسم" style="width:140px"><br>
+  <button onclick="addMember()" style="background:gold;color:#000">➕ إضافة عضو</button>
+  <h4 style="color:#aaa;margin:14px 0 8px">أعضاء الفريق:</h4>
+  <div id="membersList"></div>
+</div>
+
+<!-- إدارة المنتجات -->
+<div id="adminProducts" class="admin-section">
+  <h4 style="color:#aaa;margin-bottom:10px">إضافة منتج</h4>
+  <input type="text" id="newProductName" placeholder="اسم المنتج" style="width:90%;max-width:400px"><br>
+  <textarea id="newProductDesc" placeholder="وصف المنتج وفوائده..." rows="3" style="width:90%;max-width:400px"></textarea><br>
+  <input type="text" id="newProductCat" placeholder="الفئة (مناعة / طاقة / بشرة...)" style="width:90%;max-width:400px"><br>
+  <button onclick="addProduct()" style="background:gold;color:#000">➕ إضافة</button>
+  <div id="adminProductsList" style="margin-top:10px"></div>
+</div>
+
+<!-- إدارة الردود -->
+<div id="adminReplies" class="admin-section">
+  <h4 style="color:#aaa;margin-bottom:10px">إضافة رد ذكي</h4>
+  <input type="text" id="newReplyKeyword" placeholder="كلمة مفتاحية (مثال: غالي)" style="width:90%;max-width:400px"><br>
+  <textarea id="newReplyText" placeholder="الرد الذكي..." rows="3" style="width:90%;max-width:400px"></textarea><br>
+  <button onclick="addReply()" style="background:gold;color:#000">➕ إضافة</button>
+  <div id="adminRepliesList" style="margin-top:10px"></div>
+</div>
+
+<!-- إدارة التدريب -->
+<div id="adminTraining" class="admin-section">
+  <h4 style="color:#aaa;margin-bottom:10px">إضافة ملف تدريبي</h4>
+  <input type="text" id="newTrainTitle" placeholder="عنوان الملف" style="width:90%;max-width:400px"><br>
+  <textarea id="newTrainContent" placeholder="محتوى الملف التدريبي..." rows="4" style="width:90%;max-width:400px"></textarea><br>
+  <input type="text" id="newTrainLevel" placeholder="المستوى (مبتدئ / متوسط / متقدم)" style="width:90%;max-width:400px"><br>
+  <button onclick="addTraining()" style="background:gold;color:#000">➕ إضافة</button>
+  <div id="adminTrainingList" style="margin-top:10px"></div>
+</div>
+```
+
+  </div>
+
+  <!-- تنقل الأعضاء -->
+
+  <div class="nav-tabs" id="memberNav">
+    <button class="nav-tab active" onclick="showNav('products',this)">🌿 المنتجات</button>
+    <button class="nav-tab" onclick="showNav('assistant',this)">🤖 المساعد</button>
+    <button class="nav-tab" onclick="showNav('training',this)">🎓 التدريب</button>
+  </div>
+
+  <!-- المنتجات -->
+
+  <div id="products" class="section active">
+    <h3 style="color:#4ade80;margin-bottom:10px">🌿 منتجات DXN</h3>
+    <div id="productsList"></div>
+  </div>
+
+  <!-- المساعد -->
+
+  <div id="assistant" class="section">
+    <h3 style="color:#4ade80;margin-bottom:6px">🤖 المساعد الذكي</h3>
+    <p style="color:#aaa;font-size:13px;margin-bottom:10px">اسأل عن أي منتج أو استفسار</p>
+    <div id="chatBox"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="اكتب سؤالك...">
+      <button onclick="sendChat()">إرسال</button>
+    </div>
+    <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+      <button onclick="quickQ('ما هو الريشي')" style="font-size:12px;padding:6px 12px;background:#1f2937;border:1px solid #22c55e">الريشي</button>
+      <button onclick="quickQ('فوائد السبيرولينا')" style="font-size:12px;padding:6px 12px;background:#1f2937;border:1px solid #22c55e">سبيرولينا</button>
+      <button onclick="quickQ('كيف أبدأ العمل')" style="font-size:12px;padding:6px 12px;background:#1f2937;border:1px solid #22c55e">أبدأ العمل</button>
+      <button onclick="quickQ('المنتج المناسب للطاقة')" style="font-size:12px;padding:6px 12px;background:#1f2937;border:1px solid #22c55e">للطاقة</button>
+    </div>
+  </div>
+
+  <!-- التدريب -->
+
+  <div id="training" class="section">
+    <h3 style="color:#4ade80;margin-bottom:10px">🎓 ملفات التدريب</h3>
+    <div id="trainingList"></div>
+  </div>
+
+  <br>
+  <button class="video-btn" onclick="openVideo()">▶ شاهد فكرة المشروع</button>
+  <br>
+  <!-- غيّر الرقم هنا -->
+  <button style="background:#25D366" onclick="window.open('https://wa.me/970592330809','_blank')">💬 تواصل مع المدير</button>
+  <br>
+  <button onclick="logout()" style="background:#374151;font-size:13px;padding:7px 16px">تسجيل خروج</button>
+</div>
+
+<!-- مودال الفيديو - غير مستخدم، الفيديو يفتح مباشرة -->
+
+<div class="modal-overlay" id="videoModal" style="display:none">
+  <div style="color:white;padding:20px">جاري فتح الفيديو...</div>
+  <button class="close-video-btn" onclick="closeVideo()">✕ إغلاق</button>
+</div>
+
+<script>
+// ===== إعدادات رئيسية - غيّرها حسب حاجتك =====
+var ADMIN_ID    = "0000";
+var VIDEO_EMBED = "https://www.youtube.com/embed/3eC58oe8hX0?rel=0";
+var WA_NUMBER   = "970592330809"; // رقم واتساب المدير
+
+// ===== البيانات =====
+var members     = JSON.parse(localStorage.getItem("fursan_members")     || '[]');
+var memberNames = JSON.parse(localStorage.getItem("fursan_memberNames") || '{}');
+
+var products = JSON.parse(localStorage.getItem("fursan_products") || JSON.stringify([
+  {name:"الريشي غانو RG", desc:"يقوي المناعة، مضاد قوي للأكسدة، يساعد في السكري والضغط، ينقي الدم والشرايين", cat:"مناعة"},
+  {name:"غانوسيليوم GL",  desc:"مستخلص جذور الجانوديرما، يرفع الطاقة، يغذي الخلايا، يعزز المناعة", cat:"مناعة"},
+  {name:"سبيرولينا",      desc:"غنية بالحديد والبروتين، تقوي الدم، تعالج فقر الدم، تحسن تركيز الأطفال", cat:"طاقة"},
+  {name:"عرف الأسد",     desc:"يحسن الذاكرة والتركيز، يقوي الأعصاب، مفيد للقولون وصحة الدماغ", cat:"أعصاب"},
+  {name:"كورديسبس",      desc:"يرفع الطاقة والتحمل البدني، مفيد للرياضيين والتنفس وصحة القلب", cat:"طاقة"},
+  {name:"مورنزي Noni",   desc:"عصير طبيعي يدعم المناعة، يحسن المزاج، يطرد السموم ويدعم الهضم", cat:"مناعة"},
+  {name:"قهوة جانوديرما", desc:"قهوة أرابيكا مع الريشي، تمنح نشاطاً بدون أضرار القهوة العادية", cat:"مشروبات"},
+  {name:"صابون جانوزهي", desc:"ينظف البشرة ويرطبها، يقاوم البكتيريا، مناسب لجميع أنواع البشرة", cat:"بشرة"}
+]));
+
+var smartReplies = JSON.parse(localStorage.getItem("fursan_replies") || JSON.stringify([
+  {keyword:"غالي",       reply:"المنتجات استثمار في صحتك 💚 كم تدفع على الدواء سنوياً؟"},
+  {keyword:"مش فاضي",   reply:"ما في مشكلة 😊 سأرسل لك معلومة واحدة فقط الآن."},
+  {keyword:"بفكر",      reply:"تفكيرك صح 💡 سأرسل لك تجارب حقيقية من داخل الفريق."},
+  {keyword:"خايف",      reply:"خوفك طبيعي 🍄 DXN شركة موثوقة منذ 1993 في 180 دولة."},
+  {keyword:"كحة",       reply:"🍄 الريشي غانو RG + GL يقوي المناعة ويقاوم الالتهابات. جرعة: كبسولتان صباحاً ومساءً."},
+  {keyword:"تعب",       reply:"⚡ الكورديسبس + السبيرولينا ثنائي مثالي لرفع الطاقة. تناولهما مع الفطور."},
+  {keyword:"شعر",       reply:"🌿 السبيرولينا + ريشي غانو يقويان بصيلات الشعر. الالتزام 3 أشهر لأفضل نتيجة."},
+  {keyword:"وزن",       reply:"🏃 ماي كو فيجي صباحاً + السبيرولينا قبل الوجبات. تخسيس صحي وطبيعي."},
+  {keyword:"ريشي",      reply:"🍄 الريشي غانو ملك الأعشاب. يقوي المناعة، ينقي الدم، يخفف التوتر. الجرعة: 2 كبسولة يومياً."},
+  {keyword:"سبيرولينا", reply:"🌿 60-70% بروتين + حديد + فيتامينات B. تقوي الدم، تحسن تركيز الأطفال. الجرعة: 10-20 قرصاً."},
+  {keyword:"طاقة",      reply:"⚡ الكورديسبس + السبيرولينا + GL. الثلاثي الذهبي للطاقة طوال اليوم."},
+  {keyword:"مناعة",     reply:"🛡️ RG + GL + سبيرولينا + مورنزي. الباقة الذهبية للمناعة."},
+  {keyword:"ضغط",       reply:"❤️ الريشي غانو يحسن الدورة الدموية. استمر مع علاجك الطبي."},
+  {keyword:"سكر",       reply:"🩸 الريشي + عرف الأسد يساعدان في تنظيم السكر. لا تغير الأنسولين بدون طبيب."},
+  {keyword:"كيف أبدأ",  reply:"🚀 1) تواصل مع المدير 2) سجل عضويتك 3) جرب المنتجات 4) ابن فريقك واربح."},
+  {keyword:"ربح",       reply:"💰 تكسب من: مبيعات + عمولات الفريق + مكافآت. تواصل مع المدير لمعرفة التفاصيل."}
+]));
+
+var trainings = JSON.parse(localStorage.getItem("fursan_training") || JSON.stringify([
+  {title:"كيف تبدأ مع DXN", content:"الخطوة 1: سجل عضويتك\nالخطوة 2: جرب المنتجات شخصياً\nالخطوة 3: شارك تجربتك مع من حولك\nالخطوة 4: ابن شبكتك وحقق دخلاً مستقلاً", level:"مبتدئ"},
+  {title:"كيف تتحدث مع الناس", content:"• ابدأ بسؤال عن صحتهم\n• استمع جيداً لاحتياجاتهم\n• قدم الحل المناسب\n• لا تبيع، بل ساعد\n• تابع ولا تترك", level:"مبتدئ"},
+  {title:"بناء الفريق والمتابعة", content:"• حدد أهدافك الشهرية\n• تابع كل عضو أسبوعياً\n• احتفل بانجازات الفريق\n• درّب أعضاءك الجدد", level:"متوسط"},
+  {title:"استراتيجيات التوسع", content:"• استخدم وسائل التواصل الاجتماعي\n• شارك شهادات النجاح\n• أقم لقاءات أونلاين أسبوعية\n• وسّع نطاقك الجغرافي", level:"متقدم"}
+]));
+
+function saveAll() {
+  localStorage.setItem("fursan_members",     JSON.stringify(members));
+  localStorage.setItem("fursan_memberNames", JSON.stringify(memberNames));
+  localStorage.setItem("fursan_products",    JSON.stringify(products));
+  localStorage.setItem("fursan_replies",     JSON.stringify(smartReplies));
+  localStorage.setItem("fursan_training",    JSON.stringify(trainings));
+}
+
+// ===== تسجيل الدخول =====
+function login() {
+  var id = document.getElementById("memberId").value.trim();
+  if (!id) { alert("أدخل رقم العضوية"); return; }
+  if (id === ADMIN_ID) {
+    document.getElementById("screenGuest").style.display = "none";
+    document.getElementById("screenApp").style.display = "block";
+    document.getElementById("adminPanel").style.display = "block";
+    document.getElementById("memberNav").style.display = "none";
+    document.querySelectorAll(".section").forEach(function(s){ s.classList.remove("active"); });
+    renderAll();
+  } else if (members.includes(id)) {
+    document.getElementById("screenGuest").style.display = "none";
+    document.getElementById("screenApp").style.display = "block";
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("memberNav").style.display = "flex";
+    renderProducts(); renderTraining();
+    showNav("products", document.querySelector(".nav-tab"));
+  } else {
+    alert("❌ رقم العضوية غير صحيح\nتواصل مع المدير للحصول على رقمك");
+  }
+}
+
+function logout() {
+  document.getElementById("screenGuest").style.display = "block";
+  document.getElementById("screenApp").style.display = "none";
+  document.getElementById("memberId").value = "";
+  document.getElementById("chatBox").innerHTML = "";
+}
+
+// ===== عرض البيانات =====
+function renderAll() {
+  renderMembers(); renderProducts(); renderAdminProducts(); renderAdminReplies(); renderAdminTraining(); renderTraining();
+}
+
+function renderProducts() {
+  var html = products.map(function(p) {
+    return '<div class="card"><h3>'+p.name+' <small style="color:#6b7280;font-size:11px">'+p.cat+'</small></h3><p>'+p.desc+'</p></div>';
+  }).join("");
+  var el = document.getElementById("productsList");
+  if(el) el.innerHTML = html || "<p style='color:#aaa'>لا توجد منتجات بعد</p>";
+}
+
+function renderTraining() {
+  var colors = {مبتدئ:"#22c55e", متوسط:"#f59e0b", متقدم:"#ef4444"};
+  var html = trainings.map(function(t) {
+    var c = colors[t.level] || "#aaa";
+    return '<div class="train-card" style="border-right-color:'+c+'"><h4 style="color:'+c+'">'+t.title+
+           ' <small style="font-size:11px;color:#6b7280">('+t.level+')</small></h4><p>'+t.content.replace(/\n/g,"<br>")+'</p></div>';
+  }).join("");
+  var el = document.getElementById("trainingList");
+  if(el) el.innerHTML = html || "<p style='color:#aaa'>لا توجد ملفات تدريبية بعد</p>";
+}
+
+function renderMembers() {
+  var el = document.getElementById("membersList");
+  if(!el) return;
+  el.innerHTML = members.length === 0 ? "<p style='color:#aaa'>لا يوجد أعضاء بعد</p>" :
+    members.map(function(m) {
+      var n = memberNames[m] || "";
+      return '<div class="row-item"><span>🔑 <b>'+m+'</b>'+(n?' – '+n:'')+'</span>'+
+             '<button class="del-btn" onclick="delMember(\''+m+'\')">🗑 حذف</button></div>';
+    }).join("");
+}
+
+function renderAdminProducts() {
+  var el = document.getElementById("adminProductsList");
+  if(!el) return;
+  el.innerHTML = products.map(function(p,i) {
+    return '<div class="row-item"><div style="flex:1;text-align:right"><b>'+p.name+'</b> <small style="color:#aaa">('+p.cat+')</small></div>'+
+           '<button class="del-btn" onclick="delProduct('+i+')">🗑</button></div>';
+  }).join("") || "<p style='color:#aaa'>لا توجد منتجات</p>";
+}
+
+function renderAdminReplies() {
+  var el = document.getElementById("adminRepliesList");
+  if(!el) return;
+  el.innerHTML = smartReplies.map(function(r,i) {
+    return '<div class="row-item"><div style="flex:1;text-align:right"><b style="color:gold">'+r.keyword+'</b><br>'+
+           '<small style="color:#9ca3af">'+r.reply.substring(0,60)+'...</small></div>'+
+           '<button class="del-btn" onclick="delReply('+i+')">🗑</button></div>';
+  }).join("") || "<p style='color:#aaa'>لا توجد ردود</p>";
+}
+
+function renderAdminTraining() {
+  var el = document.getElementById("adminTrainingList");
+  if(!el) return;
+  el.innerHTML = trainings.map(function(t,i) {
+    return '<div class="row-item"><div style="flex:1;text-align:right"><b>'+t.title+'</b> <small style="color:#aaa">('+t.level+')</small></div>'+
+           '<button class="del-btn" onclick="delTraining('+i+')">🗑</button></div>';
+  }).join("") || "<p style='color:#aaa'>لا توجد ملفات</p>";
+}
+
+// ===== CRUD الأعضاء =====
+function addMember() {
+  var id = document.getElementById("newMemberId").value.trim();
+  var name = document.getElementById("newMemberName").value.trim();
+  if(!id) { alert("أدخل رقم العضوية"); return; }
+  if(id === ADMIN_ID) { alert("لا يمكن إضافة رقم المدير"); return; }
+  if(members.includes(id)) { alert("هذا الرقم موجود مسبقاً"); return; }
+  members.push(id);
+  if(name) memberNames[id] = name;
+  saveAll(); renderMembers();
+  document.getElementById("newMemberId").value = "";
+  document.getElementById("newMemberName").value = "";
+  alert("✅ تمت إضافة العضو: "+(name||id)+"\nرقم العضوية: "+id);
+}
+function delMember(id) {
+  if(!confirm("حذف العضو "+id+"؟")) return;
+  members = members.filter(function(m){ return m !== id; });
+  delete memberNames[id]; saveAll(); renderMembers();
+}
+
+// ===== CRUD المنتجات =====
+function addProduct() {
+  var name = document.getElementById("newProductName").value.trim();
+  var desc = document.getElementById("newProductDesc").value.trim();
+  var cat  = document.getElementById("newProductCat").value.trim();
+  if(!name||!desc) { alert("أدخل اسم المنتج ووصفه"); return; }
+  products.push({name:name, desc:desc, cat:cat||"عام"});
+  saveAll(); renderProducts(); renderAdminProducts();
+  document.getElementById("newProductName").value = "";
+  document.getElementById("newProductDesc").value = "";
+  document.getElementById("newProductCat").value = "";
+  alert("✅ تمت إضافة المنتج: "+name);
+}
+function delProduct(i) {
+  if(!confirm("حذف هذا المنتج؟")) return;
+  products.splice(i,1); saveAll(); renderProducts(); renderAdminProducts();
+}
+
+// ===== CRUD الردود =====
+function addReply() {
+  var kw = document.getElementById("newReplyKeyword").value.trim();
+  var rp = document.getElementById("newReplyText").value.trim();
+  if(!kw||!rp) { alert("أدخل الكلمة المفتاحية والرد"); return; }
+  smartReplies.push({keyword:kw, reply:rp}); saveAll(); renderAdminReplies();
+  document.getElementById("newReplyKeyword").value = "";
+  document.getElementById("newReplyText").value = "";
+  alert("✅ تمت إضافة الرد على: "+kw);
+}
+function delReply(i) {
+  if(!confirm("حذف هذا الرد؟")) return;
+  smartReplies.splice(i,1); saveAll(); renderAdminReplies();
+}
+
+// ===== CRUD التدريب =====
+function addTraining() {
+  var title   = document.getElementById("newTrainTitle").value.trim();
+  var content = document.getElementById("newTrainContent").value.trim();
+  var level   = document.getElementById("newTrainLevel").value.trim();
+  if(!title||!content) { alert("أدخل العنوان والمحتوى"); return; }
+  trainings.push({title:title, content:content, level:level||"مبتدئ"});
+  saveAll(); renderAdminTraining(); renderTraining();
+  document.getElementById("newTrainTitle").value = "";
+  document.getElementById("newTrainContent").value = "";
+  document.getElementById("newTrainLevel").value = "";
+  alert("✅ تمت إضافة الملف: "+title);
+}
+function delTraining(i) {
+  if(!confirm("حذف هذا الملف؟")) return;
+  trainings.splice(i,1); saveAll(); renderAdminTraining(); renderTraining();
+}
+
+// ===== المساعد الذكي =====
+async function sendChat() {
+  var input = document.getElementById("chatInput").value.trim();
+  if(!input) return;
+  appendChat("أنت", "#86efac", input);
+  document.getElementById("chatInput").value = "";
+
+  // 1) ابحث أولاً في الردود المحلية بشكل ذكي (كلمات مفتاحية متعددة)
+  var localReply = findSmartReply(input);
+  if (localReply) {
+    appendChat("🤖 المساعد", "#fbbf24", localReply);
+    return;
+  }
+
+  // 2) إذا لم يجد → أرسل لـ Claude AI
+  appendChat("🤖 المساعد", "#aaa", "⏳ جاري التفكير...");
+  try {
+    var systemPrompt = "أنت مساعد ذكي لفريق (فرسان الصحة والمال) المتخصص في منتجات شركة DXN العالمية. " +
+      "أجب باللغة العربية بشكل مختصر ومفيد لا يتجاوز 4 أسطر. " +
+      "المنتجات المتاحة: " + products.map(function(p){ return p.name + " (" + p.desc + ")"; }).join(" | ") + ". " +
+      "الردود الجاهزة للاعتراضات: " + smartReplies.map(function(r){ return r.keyword + ": " + r.reply; }).join(" | ") + ". " +
+      "إذا سأل عن سعر أو شراء قل له يتواصل مع المدير عبر واتساب.";
+
+    var res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 300,
+        system: systemPrompt,
+        messages: [{ role: "user", content: input }]
+      })
+    });
+    var data = await res.json();
+    // إزالة رسالة "جاري التفكير"
+    var box = document.getElementById("chatBox");
+    var msgs = box.querySelectorAll("p");
+    if (msgs.length > 0) msgs[msgs.length-1].remove();
+
+    var reply = data.content && data.content[0] ? data.content[0].text : null;
+    if (reply) {
+      appendChat("🤖 المساعد", "#fbbf24", reply);
+    } else {
+      appendChat("🤖 المساعد", "#fbbf24", "عذراً، لم أفهم سؤالك. حاول السؤال بطريقة مختلفة أو تواصل مع المدير مباشرة 🌿");
+    }
+  } catch(e) {
+    var box = document.getElementById("chatBox");
+    var msgs = box.querySelectorAll("p");
+    if(msgs.length > 0) msgs[msgs.length-1].remove();
+    appendChat("🤖 المساعد", "#fbbf24", "يمكنك السؤال عن: الريشي، سبيرولينا، طاقة، مناعة، شعر، وزن، ضغط... 🌿");
+  }
+}
+
+// بحث ذكي يفهم الكلمات حتى لو كان السؤال مختلفاً
+function findSmartReply(input) {
+  input = input.toLowerCase()
+    .replace(/ة/g,"ه")
+    .replace(/أ|إ|آ/g,"ا")
+    .replace(/ى/g,"ي");
+
+  // مترادفات ذكية - كل مجموعة تشير لنفس الموضوع
+  var synonyms = [
+    { keys: ["غالي","سعر","تكلفه","مكلف","ثمن","حلو سعره","بكم","كام","مش رخيص"], idx: null },
+    { keys: ["مش فاضي","مشغول","ما عندي وقت","بعدين","لاحقاً","مو وقتي"], idx: null },
+    { keys: ["بفكر","تفكير","مو متاكد","مش متأكد","ما قررت","لسه"], idx: null },
+    { keys: ["خايف","خوف","مخاوف","مو متاكد","هل امان","مضمون","موثوق"], idx: null },
+    { keys: ["كحه","كحة","سعال","برد","زكام","انفلونزا","رشح","مريض"], idx: null },
+    { keys: ["تعب","ارهاق","إرهاق","خمول","نعسان","تقيل","ما عندي طاقه","طاقه قليله","مرهق"], idx: null },
+    { keys: ["شعر","تساقط","صلع","قشره","شعر خفيف","شعر يطيح"], idx: null },
+    { keys: ["وزن","تخسيس","رجيم","دايت","سمنه","سمنة","دهون","بدانه"], idx: null },
+    { keys: ["ريشي","جانوديرما","rg","gl","غانوسيليوم","فطر"], idx: null },
+    { keys: ["سبيرولينا","spirulina","طحلب","حديد","فقر دم","انيميا","أنيميا"], idx: null },
+    { keys: ["طاقه","طاقة","نشاط","حيويه","حيوية","نشيط"], idx: null },
+    { keys: ["مناعه","مناعة","مقاومه","مقاومة","جهاز مناعي"], idx: null },
+    { keys: ["ضغط","ضغط دم","قلب","شرايين","دوره دمويه"], idx: null },
+    { keys: ["سكر","سكري","جلوكوز","انسولين"], idx: null },
+    { keys: ["ابدا","ابدأ","كيف اشترك","كيف انضم","كيف اسجل","عايز اشتغل","عايز ادخل"], idx: null },
+    { keys: ["ربح","دخل","مال","فلوس","كسب","شغل","عمل","مشروع"], idx: null },
+  ];
+
+  // ربط المترادفات بالردود الموجودة
+  var replyKeywords = smartReplies.map(function(r){
+    return r.keyword.toLowerCase().replace(/ة/g,"ه").replace(/أ|إ|آ/g,"ا").replace(/ى/g,"ي");
+  });
+
+  for (var s = 0; s < synonyms.length; s++) {
+    var group = synonyms[s];
+    for (var k = 0; k < group.keys.length; k++) {
+      if (input.includes(group.keys[k])) {
+        // ابحث عن أقرب رد في smartReplies
+        for (var r = 0; r < smartReplies.length; r++) {
+          var rk = replyKeywords[r];
+          for (var gk = 0; gk < group.keys.length; gk++) {
+            if (rk.includes(group.keys[gk]) || group.keys[gk].includes(rk)) {
+              return smartReplies[r].reply;
+            }
+          }
+        }
+        // إذا لم يجد تطابق في الردود، أعد أول رد في المجموعة
+        if (smartReplies[s]) return smartReplies[s].reply;
+      }
+    }
+  }
+
+  // بحث مباشر بالكلمات المفتاحية الأصلية
+  for (var i = 0; i < smartReplies.length; i++) {
+    var kw = smartReplies[i].keyword.toLowerCase()
+      .replace(/ة/g,"ه").replace(/أ|إ|آ/g,"ا").replace(/ى/g,"ي");
+    if (input.includes(kw) || kw.includes(input.substring(0, Math.min(input.length, 4)))) {
+      return smartReplies[i].reply;
+    }
+  }
+
+  return null; // لم يجد → يذهب لـ Claude AI
+}
+function quickQ(q) { document.getElementById("chatInput").value=q; sendChat(); }
+function appendChat(from,color,text) {
+  var box = document.getElementById("chatBox");
+  box.innerHTML += '<p style="color:'+color+';margin:6px 0"><b>'+from+':</b> '+text+'</p>';
+  box.scrollTop = box.scrollHeight;
+}
+
+// ===== التنقل =====
+function showNav(id, btn) {
+  document.querySelectorAll(".section").forEach(function(s){ s.classList.remove("active"); });
+  document.querySelectorAll(".nav-tab").forEach(function(b){ b.classList.remove("active"); });
+  document.getElementById(id).classList.add("active");
+  if(btn) btn.classList.add("active");
+}
+function showAdminTab(id, btn) {
+  document.querySelectorAll(".admin-section").forEach(function(s){ s.classList.remove("active"); });
+  document.querySelectorAll(".admin-tab").forEach(function(b){ b.classList.remove("active"); });
+  document.getElementById(id).classList.add("active");
+  if(btn) btn.classList.add("active");
+}
+
+// ===== الفيديو =====
+function openVideo() {
+  // فتح يوتيوب مباشرة - يعمل في كل الأجهزة
+  var youtubeLink = "https://youtu.be/3eC58oe8hX0";
+  window.open(youtubeLink, "_blank");
+}
+function closeVideo() {
+  document.getElementById("videoModal").classList.remove("open");
+}
+
+// ===== أحداث =====
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("memberId").addEventListener("keydown",function(e){ if(e.key==="Enter") login(); });
+  document.getElementById("chatInput").addEventListener("keydown",function(e){ if(e.key==="Enter") sendChat(); });
+});
+</script>
+
+</body>
+</html>
